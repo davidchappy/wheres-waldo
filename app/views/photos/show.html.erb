@@ -5,8 +5,8 @@
 <div class="popup">
   <h3>Who'd you find?</h3>
   <ul>
-    <li class="character-choice" id="waldo">Waldo</li>
-    <li class="character-choice" id="wanda">Wanda</li>
-    <li class="character-choice" id="wizard">Wizard</li>
+    <% @characters.each do |character| %>
+      <li class="character-choice" id="<%= character.name %>"><%= character.name.capitalize! %></li>
+    <% end %>
   </ul>
 </div>
