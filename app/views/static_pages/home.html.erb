@@ -1,9 +1,9 @@
 <div class="home">
   <h1>Where's Waldo</h1>
-  <p>Choose a photo to play.</p>
+  <p>Choose a photo to play:</p>
   <ul class="photo-options">
     <% @photos.each do |photo| %>
-      <li class="photo-option"><%= image_tag(photo.url, 'data-id' => photo.id) %><%= photo.title %></li>
+      <li class="photo-option" data-id="<%= photo.id %>"><%= image_tag(photo.url) %><%= photo.title %></li>
     <% end %>
   </ul> 
 </div>

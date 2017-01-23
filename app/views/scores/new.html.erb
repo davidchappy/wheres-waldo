@@ -1,0 +1,11 @@
+<div class="new-score">
+  <h1>You won!</h1> 
+  <%= form_for @score, url: scores_url, html: {method: 'post'} do |f| %>
+    <%= f.label :player, 'Please Type Your Name' %>
+    <br>
+    <%= f.text_field :player %>
+    <%= f.hidden_field :photo_id, value: params['photo'] %>
+    <%= f.hidden_field :time, value: params['time'] %>
+    <%= f.submit 'Submit' %>
+  <% end %>
+</div>

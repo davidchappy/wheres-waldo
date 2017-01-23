@@ -2,6 +2,7 @@ var x;
 var y;
 var photoId;
 var $popup = $('.popup');
+var timeElapsed = 0;
 
 // Listeners
 $("#photo").click(function(event) {
@@ -25,11 +26,6 @@ $(".character-choice").click(function(event) {
   $popup.hide();
 });
 
-$("body").on('click', '#play-again', function(event) {
-  event.preventDefault();
-  location.reload();
-});
-
 $("body").on('click', '.photo-option', function(e) {
   photoId = $(e.target).attr('data-id');
   console.log(photoId);
@@ -40,12 +36,21 @@ $("body").on('click', '.photo-option', function(e) {
     contentType: 'application/json; charset=utf-8',
     success: function (response) {
       console.log("success");
-      window.location.href = 'http://localhost:3000/play'
+      window.location.href = 'http://localhost:3000/play';
     },
     error: function () {
       console.log("error");
     }
   });
+});
+
+$(document).ready(function(event) {
+  if(top.location.pathname === '/play') {
+    setInterval(function() {
+      timeElapsed += 1;
+      $('#timer').html('Timer: ' + timeElapsed);
+    }, 1000);
+  }
 });
 
 // end Listeners
@@ -141,7 +146,16 @@ function isElementInViewport (el) {
 }
 
 function victory() {
-  var $gameOver = $('<div class="game-over">You won! <a id="play-again">Play again?</a></div>');
-  $("body").append($gameOver);
+  $.ajax({
+    url: '/scores/new',
+    type: 'GET',
+    data: { photo: photoId, time: timeElapsed },
+    success: function (response) {
+      $("body").append(response);
+    },
+    error: function () {
+      console.log("error");
+    }
+  });
 }
 // end Functions

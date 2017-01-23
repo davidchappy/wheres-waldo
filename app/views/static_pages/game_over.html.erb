@@ -1,0 +1,10 @@
+<div class="game-over">
+  <h1>You Found All the Characters!</h1>
+  <a href="/" id="play-again">Play again?</a>
+  <p>Scores:</p>
+  <ul class="scores">
+    <% @scores.each do |score| %>
+      <li class="score"><%= score.player %>: <%= Time.at(score.time).utc.strftime("%M:%S") %></li>
+    <% end %>
+  </ul> 
+</div>
