@@ -1,29 +1,43 @@
+var x;
+var y;
+var photoId;
+var $popup = $('.popup');
+
 $("#photo").click(function(event) {
-  togglePopup(event.clientX+10, event.clientY-10);
+  var popupY = event.clientY;
+
+  if(popupY >= ($("#photo").height()) - $('.popup').height()) {
+    popupY = ($("#photo").height()) - ($('.popup').height() + 25);
+  };
+
+  togglePopup(event.clientX+10, popupY, $popup);
 
   // Find mouse position in image element, and call function to check if character was clicked
-  var x = event.offsetX;
-  var y = event.offsetY;
-  var photoId = $(this).attr('data-id'); 
-
-  $(".character-choice").click(function(event) {
-    var name = event.target.id;
-    getCharacter(x, y, name, photoId);
-  });
-
+  x = event.offsetX;
+  y = event.offsetY;
+  photoId = $(this).attr('data-id'); 
 });
 
+$(".character-choice").click(function(event) {
+  var name = event.target.id;
+  getCharacter(x, y, name, photoId);
+  $popup.hide();
+});
 
-function togglePopup(x,y) {
-  var $popup = $('.popup');
-  $popup.css({
+$("body").on('click', '#play-again', function(event) {
+  event.preventDefault();
+  location.reload();
+});
+
+function togglePopup(x,y, popup) {
+  popup.css({
     'left': x,
     'top': y
   });
-  if($popup.is(":visible")) {
-    $popup.hide();
-  } else {
-    $popup.show();
+  if(popup.is(":visible")) {
+    popup.hide();
+  } else if(!$(".error-message").is(":visible")) {
+    popup.show();
   }
 }
 
@@ -38,8 +52,14 @@ function getCharacter(x, y, name, photoId) {
       var result = checkPosition(x, y, character);
       if(result) {
         encloseCharacter(character);
+        removeCharacter(character);
       } else {
-        console.log("try again");
+        $error = $('<div class="error-message">Nobody here. Try again!</div>');
+        $("body").prepend($error);
+        togglePopup(x, y, $error);
+        $(document).click(function(event) {
+          $error.hide();
+        });
       }
     },
     error: function () {
@@ -54,20 +74,10 @@ function checkPosition(x, y, character) {
   var positionX = character['positionX'];
   var positionY = character['positionY'];
 
-  console.log(x);
-  console.log(y);
-
-  // console.log(sizeX);
-  // console.log(sizeY);
-  // console.log(positionX);
-  // console.log(positionY);
-
   if((x >= positionX && x <= positionX + sizeX) 
     && (y >= positionY && y <= positionY + sizeY)) {
-    console.log("found the character")
     return true;
   } else {
-    console.log("no character here")
     return false;
   }
 }
@@ -83,6 +93,32 @@ function encloseCharacter(character) {
   $("body").append(outline);
 }
 
-// function endGame() {
-//   location.reload();
-// }
+function removeCharacter(character) {
+  var name = "#" + character['name'];
+  $popup.find(name).remove();
+  if(!$popup.find(".character-choice").length) {
+    victory();
+  }
+}
+
+// http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
+function isElementInViewport (el) {
+    //special bonus for those using jQuery
+    if (typeof jQuery === "function" && el instanceof jQuery) {
+        el = el[0];
+    }
+
+    var rect = el.getBoundingClientRect();
+
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+    );
+}
+
+function victory() {
+  var $gameOver = $('<div class="game-over">You won! <a id="play-again">Play again?</a></div>');
+  $("body").append($gameOver);
+}

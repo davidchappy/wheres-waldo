@@ -3,6 +3,11 @@ html, body, h1 {
   margin: 0;
 }
 
+ul, li {
+  list-style: none;
+  margin: 0;
+}
+
 body {
   position: relative;
 }
@@ -13,12 +18,36 @@ img {
 
 .popup {
   display: none;
-  position: absolute;
+  position: fixed;
   width: 150px;
   padding: 10px;
   margin: 0;
   padding: 15px;
   background: rgba(255,255,255,0.7);
+}
+
+.character-choice {
+  padding: 15px 0 15px 55px;
+  border-radius: 16px;
+  margin-left: -40px;
+  background-size: 45px 54px;
+  margin-bottom:5px;
+}
+
+#waldo {
+  background: image-url("waldo.png") no-repeat left;
+}
+
+#wenda {
+  background: image-url("wenda.png") no-repeat left;
+}
+
+#wizzard {
+  background: image-url("wizzard.png") no-repeat left;
+}
+
+#odlaw {
+  background: image-url("odlaw.png") no-repeat left;
 }
 
 .character-choice:hover {
@@ -31,7 +60,44 @@ img {
   margin-left: -9px;
   margin-top: -5px;
   border-radius: 50%;
-  border: 4px dotted rgba(200, 56, 61,0.9);
-  box-shadow: 0 0 1px 7px rgba(255,255,255,0.7);
+  border: 4px solid blue;
+  box-shadow: 0 0 1px 4px rgba(255,255,255,0.7);
   position: absolute;
 }
+
+.error-message {
+  position: absolute;
+  height: 20px;
+  width: 150px;
+  background: rgba(255,255,255,0.7);
+  display: none;
+  font-size: 0.9em;
+  padding: 7px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 20px;
+  border: 2px solid red;
+  border-radius: 5px;
+}
+
+.game-over {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1.3em;
+  background: rgba(255,255,255,0.8);
+  padding-top: 30%;
+  
+  #play-again {
+    cursor: pointer;
+    color: red;
+  }
+}
+
