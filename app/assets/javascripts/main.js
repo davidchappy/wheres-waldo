@@ -36,7 +36,7 @@ $("body").on('click', '.photo-option', function(e) {
     contentType: 'application/json; charset=utf-8',
     success: function (response) {
       console.log("success");
-      window.location.href = 'http://localhost:3000/play';
+      window.location.href = '/play';
     },
     error: function () {
       console.log("error");
