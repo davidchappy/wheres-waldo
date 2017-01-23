@@ -16,6 +16,17 @@ img {
   max-width: 1200px;
 }
 
+.heading {
+  display: inline-block;
+}
+
+.back-home {
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+}
+
 .popup {
   display: none;
   position: fixed;
@@ -101,3 +112,29 @@ img {
   }
 }
 
+.home {
+  text-align: center;
+  padding-top: 3rem;
+}
+
+.photo-options {
+  display: block;
+  margin: 0 auto;
+  width: 300px;
+}
+
+.photo-option {
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.photo-option:hover {
+  color: red;
+}
+
+.photo-option img {
+  width: 100px;
+  vertical-align: middle;
+  margin-right: 10px;
+}

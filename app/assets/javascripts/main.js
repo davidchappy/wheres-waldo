@@ -3,6 +3,7 @@ var y;
 var photoId;
 var $popup = $('.popup');
 
+// Listeners
 $("#photo").click(function(event) {
   var popupY = event.clientY;
 
@@ -29,6 +30,28 @@ $("body").on('click', '#play-again', function(event) {
   location.reload();
 });
 
+$("body").on('click', '.photo-option', function(e) {
+  photoId = $(e.target).attr('data-id');
+  console.log(photoId);
+  $.ajax({
+    url: 'photos/select',
+    type: 'GET',
+    data: { photo: photoId},
+    contentType: 'application/json; charset=utf-8',
+    success: function (response) {
+      console.log("success");
+      window.location.href = 'http://localhost:3000/play'
+    },
+    error: function () {
+      console.log("error");
+    }
+  });
+});
+
+// end Listeners
+
+
+// Functions
 function togglePopup(x,y, popup) {
   popup.css({
     'left': x,
@@ -103,7 +126,6 @@ function removeCharacter(character) {
 
 // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
 function isElementInViewport (el) {
-    //special bonus for those using jQuery
     if (typeof jQuery === "function" && el instanceof jQuery) {
         el = el[0];
     }
@@ -122,3 +144,4 @@ function victory() {
   var $gameOver = $('<div class="game-over">You won! <a id="play-again">Play again?</a></div>');
   $("body").append($gameOver);
 }
+// end Functions
